@@ -1,5 +1,5 @@
 /* ============================================
-   LuvTune Clone — Main JavaScript
+   LuuvTune Clone — Main JavaScript
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
