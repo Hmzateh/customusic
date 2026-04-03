@@ -618,10 +618,10 @@
         </div>
         <div class="footer-links">
             <h4>Policies</h4>
-            <a href="#">Shipping Policy</a>
-            <a href="#">Refund Policy</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <a href="#" onclick="openPolicy('shipping');return false;">Shipping Policy</a>
+            <a href="#" onclick="openPolicy('refund');return false;">Refund Policy</a>
+            <a href="#" onclick="openPolicy('privacy');return false;">Privacy Policy</a>
+            <a href="#" onclick="openPolicy('terms');return false;">Terms of Service</a>
         </div>
         <div class="footer-contact">
             <h4>Contact Us</h4>
@@ -635,5 +635,34 @@
 </footer>
 
 <script src="main.js"></script>
+
+<!-- Policy Modals -->
+<style>
+.pol-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:flex-end;justify-content:center}
+.pol-ov.open{display:flex}
+.pol-sh{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:80vh;overflow-y:auto;padding:28px 24px 36px;box-shadow:0 -6px 40px rgba(0,0,0,.2);position:relative}
+.pol-sh h2{font-size:1.3rem;font-weight:700;margin-bottom:16px;color:#1a1a2e}
+.pol-sh p,.pol-sh li{font-size:.95rem;line-height:1.7;color:#444;margin-bottom:10px}
+.pol-sh ul{padding-left:18px}
+.pol-x{position:absolute;top:16px;right:18px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888}
+</style>
+<div class="pol-ov" id="polOv" onclick="if(event.target===this)polClose()">
+  <div class="pol-sh">
+    <button class="pol-x" onclick="polClose()">&#x2715;</button>
+    <h2 id="polTitle"></h2>
+    <div id="polBody"></div>
+  </div>
+</div>
+<script>
+var POLS={
+  shipping:{title:'Shipping Policy',body:'<p>LuuvTune delivers all songs digitally by email. No physical item is shipped.</p><p><strong>Delivery:</strong> Your personalized song arrives within <strong>1 to 6 hours</strong>. If not received, check spam or contact support@luuvtune.com.</p>'},
+  refund:{title:'Refund Policy',body:'<p><strong>1 Free Revision</strong> included with every order — request changes from your tracking page.</p><p>No refunds once creation starts. If we cannot deliver, you get a full refund. Contact support@luuvtune.com within 7 days.</p>'},
+  privacy:{title:'Privacy Policy',body:'<p>We collect only what is needed: recipient name, occasion, story, and email. Your data is never sold or shared, and is kept for up to 12 months.</p><p>Questions: support@luuvtune.com</p>'},
+  terms:{title:'Terms of Service',body:'<p>By ordering, you agree:</p><ul><li>Each song is a unique custom creation for personal use only.</li><li>No resale or commercial use.</li><li>Delivery: 1 to 6 hours (delays possible at peak times).</li><li>1 free revision per order.</li><li>We may refuse orders with offensive content.</li></ul><p>Contact: support@luuvtune.com</p>'}
+};
+function openPolicy(k){var p=POLS[k];if(!p)return;document.getElementById('polTitle').textContent=p.title;document.getElementById('polBody').innerHTML=p.body;document.getElementById('polOv').classList.add('open');document.body.style.overflow='hidden';}
+function polClose(){document.getElementById('polOv').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')polClose();});
+</script>
 </body>
 </html>
