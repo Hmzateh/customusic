@@ -1625,6 +1625,172 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 }
 .cr-author { color: var(--text-muted); font-size: 0.78rem; }
 
+/* ============================================================
+   QUIZ — LIGHT CARD PALETTE
+   Overrides the generic dark styles above so that the inner
+   quiz cards (genre rows, mood pills, packages, second-song
+   block, inspiration, info cards, testimonial) use a light
+   surface with dark text, matching the luuvtune reference.
+   Occasion buttons, voice buttons and the top summary card
+   stay dark on purpose.
+   ============================================================ */
+
+:root {
+    --q-light-bg: #ffffff;
+    --q-light-bg-alt: #fafafa;
+    --q-light-bg-pink: #fdf1f4;
+    --q-light-bg-cream: #fff7f4;
+    --q-light-bg-mint: #f1faf6;
+    --q-light-text: #1a1d2e;
+    --q-light-text-muted: #6b7280;
+    --q-light-text-dim: #9ca3af;
+    --q-light-border: #e5e7eb;
+    --q-light-border-strong: #d1d5db;
+}
+
+/* --- Genre rows --- */
+.quiz-container .genre-list .genre-btn {
+    background: var(--q-light-bg);
+    border-color: var(--q-light-border);
+}
+.quiz-container .genre-list .genre-btn:hover {
+    background: #fff;
+    border-color: rgba(232, 67, 147, 0.45);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+.quiz-container .genre-list .genre-btn.selected {
+    background: var(--q-light-bg-pink);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+}
+.quiz-container .genre-list .gr-name { color: var(--q-light-text); }
+.quiz-container .genre-list .gr-desc { color: var(--q-light-text-muted); }
+.quiz-container .genre-list .gr-radio { border-color: var(--q-light-border-strong); }
+.quiz-container .genre-list .genre-btn.selected .gr-radio { border-color: var(--accent); }
+
+/* --- Mood pills --- */
+.quiz-container .mood-pills .mood-btn {
+    background: var(--q-light-bg);
+    border-color: var(--q-light-border);
+    color: var(--q-light-text);
+}
+.quiz-container .mood-pills .mood-btn:hover {
+    border-color: rgba(232, 67, 147, 0.45);
+    background: #fff;
+}
+.quiz-container .mood-pills .mood-btn.selected {
+    background: var(--q-light-bg-pink);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* --- Package options --- */
+.quiz-container .package-option {
+    background: var(--q-light-bg);
+    border-color: var(--q-light-border);
+}
+.quiz-container .package-option:hover {
+    background: #fff;
+    border-color: rgba(232, 67, 147, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+.quiz-container .package-option.selected {
+    background: var(--q-light-bg-pink);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 14px 34px rgba(232, 67, 147, 0.18);
+}
+.quiz-container .package-option .pkg-title { color: var(--q-light-text); }
+.quiz-container .package-option .pkg-desc { color: var(--q-light-text-muted); }
+.quiz-container .package-option .pkg-price { color: var(--q-light-text); }
+.quiz-container .package-option .pkg-price-old { color: var(--q-light-text-dim); }
+.quiz-container .package-option .pkg-check { border-color: var(--q-light-border-strong); }
+.quiz-container .package-option.selected .pkg-check { border-color: var(--accent); }
+.quiz-container .pkg-save { color: #16a34a; }
+
+/* --- Second song / benefits card --- */
+.quiz-container .second-song-card {
+    background: var(--q-light-bg-pink);
+    border-color: rgba(232, 67, 147, 0.25);
+}
+.quiz-container .second-song-card h4 { color: var(--q-light-text); }
+.quiz-container .second-song-card .sss-desc { color: var(--q-light-text-muted); }
+.quiz-container .second-song-card .form-group label { color: var(--q-light-text-muted); }
+.quiz-container .second-song-card .form-group input,
+.quiz-container .second-song-card .form-group select,
+.quiz-container .second-song-card .form-group textarea {
+    background: #fff;
+    border-color: var(--q-light-border);
+    color: var(--q-light-text);
+}
+.quiz-container .second-song-card .form-group select {
+    background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%),
+                      linear-gradient(135deg, #6b7280 50%, transparent 50%);
+    background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2.2rem;
+}
+.quiz-container .second-song-card .form-group input:focus,
+.quiz-container .second-song-card .form-group select:focus,
+.quiz-container .second-song-card .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232, 67, 147, 0.12);
+}
+.quiz-container .benefits-title { color: var(--q-light-text-muted); }
+.quiz-container .benefits-list li { color: var(--q-light-text); }
+.quiz-container .benefits-list .b-check { color: #16a34a; }
+.quiz-container .benefits-list .b-price { color: var(--q-light-text-dim); }
+.quiz-container .benefits-list .b-gift { color: var(--accent); }
+.quiz-container .benefits-list .b-gift .b-check { color: var(--accent); }
+.quiz-container .total-row {
+    color: var(--q-light-text);
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+.quiz-container .total-row s { color: var(--q-light-text-dim); }
+.quiz-container .total-row strong { color: var(--accent); }
+
+/* --- Inspiration card (step 5) --- */
+.quiz-container .inspiration-card {
+    background: var(--q-light-bg);
+    border-color: var(--q-light-border);
+}
+.quiz-container .inspiration-card h5 { color: var(--q-light-text); }
+.quiz-container .inspiration-card li { color: var(--q-light-text-muted); }
+
+/* --- Info cards (the small hint rows under inputs) --- */
+.quiz-container .quiz-info-card {
+    background: var(--q-light-bg-cream);
+    border-color: rgba(232, 67, 147, 0.18);
+    color: var(--q-light-text);
+}
+.quiz-container .quiz-info-card .qic-icon { color: var(--accent); }
+.quiz-container .quiz-info-card-green {
+    background: var(--q-light-bg-mint);
+    border-color: rgba(16, 163, 74, 0.2);
+    color: #14532d;
+}
+.quiz-container .quiz-info-card-green .qic-icon { color: #16a34a; }
+.quiz-container .quiz-info-card-quote {
+    background: var(--q-light-bg);
+    color: var(--q-light-text-muted);
+    border-color: var(--q-light-border);
+}
+
+/* --- Checkout testimonial at bottom of step 6 --- */
+.quiz-container .checkout-review {
+    background: var(--q-light-bg-cream);
+    border-color: rgba(232, 67, 147, 0.18);
+}
+.quiz-container .checkout-review p { color: var(--q-light-text); font-style: italic; }
+.quiz-container .checkout-review .cr-author { color: var(--q-light-text-muted); }
+
+/* --- Express checkout badges stay light too --- */
+.quiz-container .exp-badge {
+    background: var(--q-light-bg);
+    border-color: var(--q-light-border);
+    color: var(--q-light-text);
+}
+
 /* === REVIEWS === */
 .reviews-grid {
     display: grid;
