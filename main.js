@@ -353,6 +353,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ============ HERO ROTATING HEADLINE ============
+    (function initRotator() {
+        const wordEl = document.querySelector('.rotator .rotator-word');
+        if (!wordEl) return;
+
+        const words = [
+            'a healing heart',
+            'your first love',
+            'your mom',
+            'your best friend',
+            'your dog',
+            'a new baby',
+            'a wedding day',
+            'a broken heart',
+            'the one who got away',
+            'your soulmate'
+        ];
+
+        let i = 0;
+        wordEl.textContent = words[0];
+
+        const swap = () => {
+            wordEl.classList.remove('in');
+            wordEl.classList.add('out');
+            setTimeout(() => {
+                i = (i + 1) % words.length;
+                wordEl.textContent = words[i];
+                wordEl.classList.remove('out');
+                wordEl.classList.add('in');
+            }, 450);
+        };
+
+        setInterval(swap, 2600);
+    })();
+
     // ============ MOBILE MENU ============
     const mobileToggle = document.getElementById('mobileToggle');
     const navLinks = document.querySelector('.nav-links');
