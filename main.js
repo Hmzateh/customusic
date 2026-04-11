@@ -353,6 +353,98 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ============ GEO-IP PRICING (USD base, auto-converts by country) ============
+    (function initGeoPricing() {
+        const priceEls = document.querySelectorAll('[data-usd]');
+        if (!priceEls.length) return;
+
+        // Locales we actively target. Anything else falls back to USD.
+        const LOCALES = {
+            US: { currency: 'USD', locale: 'en-US' },
+            CA: { currency: 'CAD', locale: 'en-CA' },
+            GB: { currency: 'GBP', locale: 'en-GB' },
+            UK: { currency: 'GBP', locale: 'en-GB' },
+            AU: { currency: 'AUD', locale: 'en-AU' },
+            NZ: { currency: 'NZD', locale: 'en-NZ' },
+            IE: { currency: 'EUR', locale: 'en-IE' }
+        };
+
+        // Static fallback rates vs 1 USD (refreshed occasionally). Used if the
+        // live FX API is unreachable so the page never shows a broken price.
+        const FALLBACK_RATES = {
+            USD: 1, CAD: 1.37, GBP: 0.79, AUD: 1.52, NZD: 1.65, EUR: 0.92
+        };
+
+        const format = (usdValue, loc, rate) => {
+            const amount = Math.round(usdValue * rate);
+            try {
+                return new Intl.NumberFormat(loc.locale, {
+                    style: 'currency',
+                    currency: loc.currency,
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0
+                }).format(amount);
+            } catch (e) {
+                return loc.currency + ' ' + amount;
+            }
+        };
+
+        const render = (countryCode, rates) => {
+            const loc = LOCALES[countryCode] || LOCALES.US;
+            const rate = (rates && rates[loc.currency]) || FALLBACK_RATES[loc.currency] || 1;
+            priceEls.forEach(el => {
+                const usd = parseFloat(el.getAttribute('data-usd'));
+                if (!isNaN(usd)) el.textContent = format(usd, loc, rate);
+            });
+        };
+
+        const withTimeout = (promise, ms) => Promise.race([
+            promise,
+            new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))
+        ]);
+
+        const detectCountry = async () => {
+            const cached = sessionStorage.getItem('cu_country');
+            if (cached) return cached;
+            try {
+                const r = await withTimeout(fetch('https://ipapi.co/json/', { cache: 'no-store' }), 3500);
+                if (!r.ok) throw new Error('bad status');
+                const d = await r.json();
+                const cc = (d && d.country_code ? d.country_code : 'US').toUpperCase();
+                sessionStorage.setItem('cu_country', cc);
+                return cc;
+            } catch (e) {
+                return 'US';
+            }
+        };
+
+        const fetchRates = async () => {
+            const cached = sessionStorage.getItem('cu_rates');
+            if (cached) {
+                try { return JSON.parse(cached); } catch (e) {}
+            }
+            try {
+                const r = await withTimeout(fetch('https://open.er-api.com/v6/latest/USD', { cache: 'no-store' }), 3500);
+                if (!r.ok) throw new Error('bad status');
+                const d = await r.json();
+                if (d && d.rates) {
+                    sessionStorage.setItem('cu_rates', JSON.stringify(d.rates));
+                    return d.rates;
+                }
+            } catch (e) {}
+            return FALLBACK_RATES;
+        };
+
+        // 1) Render immediately with USD fallback so prices never look broken.
+        render('US', FALLBACK_RATES);
+
+        // 2) Upgrade with live geo + FX data as soon as it's available.
+        (async () => {
+            const [country, rates] = await Promise.all([detectCountry(), fetchRates()]);
+            render(country, rates);
+        })();
+    })();
+
     // ============ HERO ROTATING HEADLINE ============
     (function initRotator() {
         const wordEl = document.querySelector('.rotator .rotator-word');
