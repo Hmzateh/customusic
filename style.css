@@ -1227,57 +1227,241 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
 .verified { color: var(--green) !important; }
 
 /* === FAQ === */
-.faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.faq-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 3rem;
+    align-items: flex-start;
+}
+@media (max-width: 960px) {
+    .faq-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .faq-aside { position: static; }
+}
+.faq-main { min-width: 0; }
+.faq-header { margin-bottom: 2rem; }
+.faq-header .section-label { margin-bottom: 0.9rem; }
+.faq-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.8vw, 2.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+.faq-list { display: flex; flex-direction: column; gap: 0.75rem; }
 .faq-item {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border-radius: 16px;
     overflow: hidden;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+.faq-item:hover { border-color: rgba(232, 67, 147, 0.25); }
+.faq-item.open {
+    background: rgba(232, 67, 147, 0.05);
+    border-color: rgba(232, 67, 147, 0.25);
 }
 .faq-question {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
+    padding: 1.3rem 1.6rem;
+    font-size: 1.02rem;
+    font-weight: 600;
     text-align: left;
+    color: var(--text-primary);
     transition: var(--transition);
 }
+.faq-question > span:first-child { flex: 1; }
 .faq-question:hover { color: var(--accent-2); }
 .faq-icon {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text-muted);
     transition: var(--transition);
     flex-shrink: 0;
     margin-left: 1rem;
+    line-height: 1;
 }
-.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    color: var(--accent);
+}
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
+    transition: max-height 0.45s ease, padding 0.45s ease;
 }
 .faq-item.open .faq-answer {
-    max-height: 300px;
-    padding: 0 1.5rem 1.5rem;
+    max-height: 800px;
+    padding: 0 1.6rem 1.5rem;
 }
-.faq-answer p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+.faq-answer p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.75;
+}
+.faq-answer p + p { margin-top: 0.9rem; }
+.faq-answer strong { color: var(--text-primary); font-weight: 700; }
+.faq-answer .heart-emoji { filter: hue-rotate(0); }
+.faq-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+.faq-bullets li {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding-left: 1.25rem;
+    position: relative;
+}
+.faq-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.65rem;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+.faq-bullets strong { color: var(--accent-2); }
+
+/* === FAQ SIDEBAR === */
+.faq-aside {
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
 
 .guarantee-card {
-    margin-top: 3rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.2rem 1.8rem;
     text-align: center;
-    background: linear-gradient(135deg, rgba(232,67,147,0.08), rgba(162,155,254,0.08));
-    border: 1px solid rgba(232,67,147,0.15);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.guarantee-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(160deg, rgba(232,67,147,0.25), transparent 60%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+}
+.guarantee-icon {
+    width: 66px;
+    height: 66px;
+    margin: 0 auto 1.4rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(232,67,147,0.55), rgba(232,67,147,0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(232,67,147,0.25), inset 0 0 20px rgba(255,255,255,0.05);
 }
 .guarantee-card h3 {
     font-family: var(--font-display);
-    font-size: 1.3rem;
-    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    color: var(--text-primary);
 }
-.guarantee-card p { color: var(--text-secondary); }
+.guarantee-card > p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 1.4rem;
+}
+.accent-text { color: var(--accent-2); font-weight: 600; }
+
+.guarantee-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.4rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+.guarantee-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    font-weight: 500;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+}
+.guarantee-list li:first-child { border-top: none; padding-top: 0; }
+.guarantee-list .check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+.guarantee-footnote {
+    color: var(--accent-2) !important;
+    font-size: 0.85rem !important;
+    font-weight: 500;
+    margin: 0 !important;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+}
+
+/* Limited capacity card */
+.capacity-card {
+    background: rgba(232, 67, 147, 0.05);
+    border: 1px solid rgba(232, 67, 147, 0.18);
+    border-radius: 18px;
+    padding: 1.3rem 1.4rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.capacity-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(232, 67, 147, 0.15);
+    color: var(--accent-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.capacity-body h4 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+}
+.capacity-body p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+}
 
 /* === FINAL CTA === */
 .final-cta {
@@ -1395,6 +1579,9 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
     .voice-grid { grid-template-columns: repeat(2, 1fr); }
 
     .reviews-grid { grid-template-columns: 1fr; }
+
+    .faq-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .faq-aside { position: static; }
 
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
 
