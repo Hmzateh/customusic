@@ -326,6 +326,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const overlay = wrapper.querySelector('.video-play-overlay');
         let isPlaying = false;
 
+        // Mobile Safari / Chrome Android don't render the first frame as a
+        // static thumbnail unless we seek the video. Force it to 0.1s as soon
+        // as metadata is available so the video card shows an actual still
+        // instead of a black square on mobile.
+        const seekToFirstFrame = () => {
+            try {
+                if (video.currentTime < 0.05) video.currentTime = 0.1;
+            } catch (e) {}
+        };
+        if (video.readyState >= 1) {
+            seekToFirstFrame();
+        } else {
+            video.addEventListener('loadedmetadata', seekToFirstFrame, { once: true });
+        }
+        // Also seek once the first frame data has loaded (some iOS versions
+        // only honour the seek after loadeddata).
+        video.addEventListener('loadeddata', seekToFirstFrame, { once: true });
+
         wrapper.addEventListener('click', () => {
             if (isPlaying) {
                 video.pause();
