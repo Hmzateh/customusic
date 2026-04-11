@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
         voice: '',
         senderName: '',
         story: '',
-        specialRequests: ''
+        specialRequests: '',
+        package: 'complete',
+        secondGenre: 'same',
+        secondMood: 'same'
     };
 
     let currentStep = 1;
@@ -60,15 +63,21 @@ document.addEventListener('DOMContentLoaded', () => {
         quizData.senderName = document.getElementById('senderName')?.value || quizData.senderName;
         quizData.story = document.getElementById('story')?.value || quizData.story;
         quizData.specialRequests = document.getElementById('specialRequests')?.value || quizData.specialRequests;
+        quizData.secondGenre = document.getElementById('secondGenre')?.value || quizData.secondGenre;
+        quizData.secondMood = document.getElementById('secondMood')?.value || quizData.secondMood;
     }
 
     function updateSummary() {
-        document.getElementById('sumOccasion').textContent = quizData.occasion || '—';
-        document.getElementById('sumRecipient').textContent = quizData.recipientName || '—';
-        document.getElementById('sumRelationship').textContent = quizData.relationship || '—';
-        document.getElementById('sumGenre').textContent = quizData.genre || '—';
-        document.getElementById('sumMood').textContent = quizData.mood || '—';
-        document.getElementById('sumVoice').textContent = quizData.voice || '—';
+        const setText = (id, value, fallback) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value || fallback || '—';
+        };
+        setText('sumOccasion', (quizData.occasion || 'your song').toUpperCase(), 'YOUR SONG');
+        setText('sumRecipient', quizData.recipientName, 'them');
+        setText('sumRelationship', quizData.relationship, '—');
+        setText('sumGenre', quizData.genre, '—');
+        setText('sumMood', quizData.mood, '—');
+        setText('sumVoice', quizData.voice, '—');
     }
 
     // ============ SELECTION BUTTONS ============
@@ -118,6 +127,60 @@ document.addEventListener('DOMContentLoaded', () => {
             storyCount.textContent = storyField.value.length;
         });
     }
+    const specialField = document.getElementById('specialRequests');
+    const specialCount = document.getElementById('specialCount');
+    if (specialField && specialCount) {
+        specialField.addEventListener('input', () => {
+            specialCount.textContent = specialField.value.length;
+        });
+    }
+
+    // ============ SUMMARY EDIT BUTTON ============
+    document.querySelectorAll('.summary-edit').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = parseInt(btn.dataset.goto, 10) || 1;
+            goToStep(target);
+        });
+    });
+
+    // ============ PACKAGE SELECTION (checkout) ============
+    (function initPackages() {
+        const options = document.querySelectorAll('.package-option');
+        const secondSong = document.getElementById('secondSongCard');
+        const ctaPrice = document.getElementById('ctaPrice');
+        if (!options.length) return;
+
+        const selectPackage = (el) => {
+            options.forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            const pkg = el.dataset.package;
+            const totalUsd = el.dataset.usdTotal;
+            if (pkg === 'complete') {
+                secondSong?.classList.add('visible');
+            } else {
+                secondSong?.classList.remove('visible');
+            }
+            if (ctaPrice && totalUsd) {
+                ctaPrice.setAttribute('data-usd', totalUsd);
+                // Re-render prices so the CTA reflects the new package amount
+                // (in the visitor's currency).
+                if (typeof window.cuRenderPrices === 'function') {
+                    window.cuRenderPrices();
+                } else {
+                    ctaPrice.textContent = '$' + totalUsd;
+                }
+            }
+            quizData.package = pkg;
+        };
+
+        options.forEach(opt => {
+            opt.addEventListener('click', () => selectPackage(opt));
+        });
+
+        // Initial state: keep whichever option has .selected in markup (Complete Gift).
+        const initial = document.querySelector('.package-option.selected') || options[0];
+        if (initial) selectPackage(initial);
+    })();
 
     // ============ CHECKOUT BUTTON ============
     document.getElementById('checkoutBtn')?.addEventListener('click', () => {
@@ -355,9 +418,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ============ GEO-IP PRICING (USD base, auto-converts by country) ============
     (function initGeoPricing() {
-        const priceEls = document.querySelectorAll('[data-usd]');
-        if (!priceEls.length) return;
-
         // Locales we actively target. Anything else falls back to USD.
         const LOCALES = {
             US: { currency: 'USD', locale: 'en-US' },
@@ -375,6 +435,10 @@ document.addEventListener('DOMContentLoaded', () => {
             USD: 1, CAD: 1.37, GBP: 0.79, AUD: 1.52, NZD: 1.65, EUR: 0.92
         };
 
+        // Last resolved state so we can re-render on demand.
+        let lastCountry = 'US';
+        let lastRates = FALLBACK_RATES;
+
         const format = (usdValue, loc, rate) => {
             const amount = Math.round(usdValue * rate);
             try {
@@ -390,13 +454,19 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const render = (countryCode, rates) => {
-            const loc = LOCALES[countryCode] || LOCALES.US;
-            const rate = (rates && rates[loc.currency]) || FALLBACK_RATES[loc.currency] || 1;
-            priceEls.forEach(el => {
+            if (countryCode) lastCountry = countryCode;
+            if (rates) lastRates = rates;
+            const loc = LOCALES[lastCountry] || LOCALES.US;
+            const rate = (lastRates && lastRates[loc.currency]) || FALLBACK_RATES[loc.currency] || 1;
+            // Re-query each time so newly revealed or updated nodes get picked up.
+            document.querySelectorAll('[data-usd]').forEach(el => {
                 const usd = parseFloat(el.getAttribute('data-usd'));
                 if (!isNaN(usd)) el.textContent = format(usd, loc, rate);
             });
         };
+
+        // Expose a global re-render hook for other modules (package switcher, etc.)
+        window.cuRenderPrices = () => render();
 
         const withTimeout = (promise, ms) => Promise.race([
             promise,

@@ -347,7 +347,7 @@
         <div class="section-header">
             <span class="section-label">Let's Get Started</span>
             <h2>Create Your Custom Song in 3 Minutes</h2>
-            <p>Answer a few simple questions and we'll craft a one-of-a-kind song just for them</p>
+            <p>Answer a few simple questions about your special person and we'll craft a one-of-a-kind song just for them</p>
         </div>
 
         <div class="quiz-container">
@@ -362,21 +362,75 @@
                 <h3>What's the occasion?</h3>
                 <p class="quiz-desc">Select the perfect moment for your custom song</p>
                 <div class="occasion-grid">
-                    <button class="occasion-btn" data-value="Valentine's Day">💝 Valentine's Day</button>
-                    <button class="occasion-btn" data-value="Anniversary">❤️ Anniversary</button>
-                    <button class="occasion-btn" data-value="Wedding">💒 Wedding</button>
-                    <button class="occasion-btn" data-value="Birthday">🎂 Birthday</button>
-                    <button class="occasion-btn" data-value="Mother's Day">👩 Mother's Day</button>
-                    <button class="occasion-btn" data-value="Father's Day">👨 Father's Day</button>
-                    <button class="occasion-btn" data-value="Graduation">🎓 Graduation</button>
-                    <button class="occasion-btn" data-value="Christmas">🎄 Christmas</button>
-                    <button class="occasion-btn" data-value="Memorial">🕊️ Memorial</button>
-                    <button class="occasion-btn" data-value="Engagement">💍 Engagement</button>
-                    <button class="occasion-btn" data-value="New Baby">👶 New Baby</button>
-                    <button class="occasion-btn" data-value="Just Because">💫 Just Because</button>
+                    <button class="occasion-btn" data-value="Valentine's Day">
+                        <span class="occ-icon">💝</span>
+                        <span class="occ-label">Valentine's Day</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Anniversary">
+                        <span class="occ-badge occ-badge-love">♥ LOVE SONG</span>
+                        <span class="occ-icon">❤️</span>
+                        <span class="occ-label">Anniversary</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Wedding">
+                        <span class="occ-icon">💒</span>
+                        <span class="occ-label">Wedding</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Birthday">
+                        <span class="occ-icon">🎂</span>
+                        <span class="occ-label">Birthday</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Mother's Day">
+                        <span class="occ-badge occ-badge-up">→ COMING UP!</span>
+                        <span class="occ-icon">🌸</span>
+                        <span class="occ-label">Mother's Day</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Father's Day">
+                        <span class="occ-icon">👨</span>
+                        <span class="occ-label">Father's Day</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Graduation">
+                        <span class="occ-icon">🎓</span>
+                        <span class="occ-label">Graduation</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Christmas">
+                        <span class="occ-icon">🎄</span>
+                        <span class="occ-label">Christmas</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Retirement">
+                        <span class="occ-icon">🌞</span>
+                        <span class="occ-label">Retirement</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Memorial/Tribute">
+                        <span class="occ-icon">🕊️</span>
+                        <span class="occ-label">Memorial/Tribute</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Engagement">
+                        <span class="occ-icon">💍</span>
+                        <span class="occ-label">Engagement</span>
+                    </button>
+                    <button class="occasion-btn" data-value="New Baby">
+                        <span class="occ-icon">👶</span>
+                        <span class="occ-label">New Baby</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Business/Brand">
+                        <span class="occ-icon">💼</span>
+                        <span class="occ-label">Business/Brand</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Just Because">
+                        <span class="occ-icon">✨</span>
+                        <span class="occ-label">Just Because</span>
+                    </button>
+                    <button class="occasion-btn" data-value="Other">
+                        <span class="occ-icon">✨</span>
+                        <span class="occ-label">Other</span>
+                    </button>
                 </div>
                 <div class="quiz-social-proof">
-                    <span class="pulse-dot"></span> <strong>23 people</strong> creating a song right now
+                    <p><span class="pulse-dot"></span> <strong>23 people</strong> creating a song right now</p>
+                    <p class="quiz-count"><strong>5,000+</strong> custom songs created and counting</p>
+                </div>
+                <div class="quiz-banner">
+                    🌸 <strong>Mother's Day Special!</strong> Order now for delivery before Mother's Day ⏰
                 </div>
             </div>
 
@@ -391,20 +445,19 @@
                 </div>
                 <div class="form-group">
                     <label for="relationship">Your Relationship *</label>
-                    <select id="relationship">
-                        <option value="">Select relationship...</option>
-                        <option value="Partner/Spouse">Partner / Spouse</option>
-                        <option value="Parent">Parent</option>
-                        <option value="Child">Child</option>
-                        <option value="Friend">Friend</option>
-                        <option value="Sibling">Sibling</option>
-                        <option value="Grandparent">Grandparent</option>
-                        <option value="Other">Other</option>
-                    </select>
+                    <input type="text" id="relationship" placeholder="e.g. Mom, Partner, Best Friend..." required>
+                    <span class="form-hint">How are you connected to them?</span>
+                </div>
+                <div class="quiz-info-card">
+                    <span class="qic-icon">♡</span>
+                    <span>Every song is crafted to capture your unique bond — no two songs are ever the same</span>
+                </div>
+                <div class="quiz-info-card quiz-info-card-quote">
+                    <em>"Made my wife cry happy tears!"</em> &nbsp;— Mike R.
                 </div>
                 <div class="quiz-nav">
-                    <button class="btn btn-secondary quiz-back">← Back</button>
-                    <button class="btn btn-primary quiz-next">Continue →</button>
+                    <button class="btn btn-primary btn-full btn-lg quiz-next">Continue</button>
+                    <button class="quiz-back-link quiz-back">Back</button>
                 </div>
             </div>
 
@@ -413,32 +466,98 @@
                 <h3>What's their music style?</h3>
                 <p class="quiz-desc">Pick the genre and mood that fits them best</p>
                 <h4 class="quiz-subheading">Genre</h4>
-                <div class="genre-grid">
-                    <button class="genre-btn" data-value="Pop"><span class="genre-tag">🔥 #1 Choice</span>Pop</button>
-                    <button class="genre-btn" data-value="Rock">Rock</button>
-                    <button class="genre-btn" data-value="R&B/Soul"><span class="genre-tag hot">Hot</span>R&B/Soul</button>
-                    <button class="genre-btn" data-value="Country">Country</button>
-                    <button class="genre-btn" data-value="Hip-Hop">Hip-Hop</button>
-                    <button class="genre-btn" data-value="Jazz">Jazz</button>
-                    <button class="genre-btn" data-value="Acoustic">Acoustic</button>
-                    <button class="genre-btn" data-value="Electronic">Electronic</button>
-                    <button class="genre-btn" data-value="Classical">Classical</button>
-                    <button class="genre-btn" data-value="Folk">Folk</button>
+                <div class="genre-grid genre-list">
+                    <button class="genre-btn" data-value="Pop">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Pop</span>
+                            <span class="gr-desc">Contemporary &amp; catchy · 40% choose this</span>
+                        </span>
+                        <span class="gr-badge">#1 CHOICE</span>
+                    </button>
+                    <button class="genre-btn" data-value="Rock">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Rock</span>
+                            <span class="gr-desc">Guitar-driven energy</span>
+                        </span>
+                    </button>
+                    <button class="genre-btn" data-value="R&B/Soul">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">R&amp;B/Soul</span>
+                            <span class="gr-desc">Smooth &amp; soulful</span>
+                        </span>
+                        <span class="gr-badge gr-badge-hot">HOT</span>
+                    </button>
+                    <button class="genre-btn" data-value="Country">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Country</span>
+                            <span class="gr-desc">Heartfelt storytelling</span>
+                        </span>
+                    </button>
+                    <button class="genre-btn" data-value="Hip-Hop">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Hip-Hop</span>
+                            <span class="gr-desc">Modern &amp; rhythmic</span>
+                        </span>
+                    </button>
+                    <button class="genre-btn" data-value="Jazz">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Jazz</span>
+                            <span class="gr-desc">Sophisticated &amp; timeless</span>
+                        </span>
+                    </button>
+                    <button class="genre-btn" data-value="Acoustic">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Acoustic</span>
+                            <span class="gr-desc">Intimate &amp; personal</span>
+                        </span>
+                    </button>
+                    <button class="genre-btn" data-value="Electronic">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Electronic</span>
+                            <span class="gr-desc">Modern &amp; dynamic</span>
+                        </span>
+                    </button>
+                    <button class="genre-btn" data-value="Classical">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Classical</span>
+                            <span class="gr-desc">Elegant &amp; orchestral</span>
+                        </span>
+                    </button>
+                    <button class="genre-btn" data-value="Folk">
+                        <span class="gr-radio"></span>
+                        <span class="gr-body">
+                            <span class="gr-name">Folk</span>
+                            <span class="gr-desc">Warm &amp; storytelling</span>
+                        </span>
+                    </button>
                 </div>
                 <h4 class="quiz-subheading mt-3">Mood</h4>
-                <div class="mood-grid">
-                    <button class="mood-btn" data-value="Upbeat">🎉 Upbeat & Celebratory</button>
-                    <button class="mood-btn" data-value="Romantic">❤️ Romantic & Tender</button>
-                    <button class="mood-btn" data-value="Emotional">😭 Emotional & Moving</button>
-                    <button class="mood-btn" data-value="Fun">😄 Fun & Playful</button>
-                    <button class="mood-btn" data-value="Epic">⚡ Epic & Powerful</button>
-                    <button class="mood-btn" data-value="Calm">☮️ Calm & Peaceful</button>
-                    <button class="mood-btn" data-value="Nostalgic">🌅 Nostalgic & Reflective</button>
-                    <button class="mood-btn" data-value="Energetic">🔥 Energetic & Uplifting</button>
+                <div class="mood-grid mood-pills">
+                    <button class="mood-btn" data-value="Upbeat">Upbeat &amp; Celebratory 🎉</button>
+                    <button class="mood-btn" data-value="Romantic">Romantic &amp; Tender ❤️</button>
+                    <button class="mood-btn" data-value="Emotional">Emotional &amp; Moving 😢</button>
+                    <button class="mood-btn" data-value="Fun">Fun &amp; Playful 😄</button>
+                    <button class="mood-btn" data-value="Epic">Epic &amp; Powerful ⚡</button>
+                    <button class="mood-btn" data-value="Calm">Calm &amp; Peaceful ☮</button>
+                    <button class="mood-btn" data-value="Nostalgic">Nostalgic &amp; Reflective 🌅</button>
+                    <button class="mood-btn" data-value="Energetic">Energetic &amp; Uplifting 🔥</button>
+                </div>
+                <div class="quiz-info-card quiz-info-card-green">
+                    <span class="qic-icon">🎼</span>
+                    <span>No worries if you're unsure — we'll work with you to get it perfect with free revisions!</span>
                 </div>
                 <div class="quiz-nav">
-                    <button class="btn btn-secondary quiz-back">← Back</button>
-                    <button class="btn btn-primary quiz-next">Continue →</button>
+                    <button class="btn btn-primary btn-full btn-lg quiz-next">Continue</button>
+                    <button class="quiz-back-link quiz-back">Back</button>
                 </div>
             </div>
 
@@ -448,6 +567,7 @@
                 <p class="quiz-desc">Select the vocal style for your song</p>
                 <div class="voice-grid">
                     <button class="voice-btn" data-value="Female">
+                        <span class="voice-badge voice-badge-love">PERFECT FOR LOVE SONGS</span>
                         <span class="voice-icon">👩</span>
                         <span>Female Voice</span>
                     </button>
@@ -456,9 +576,10 @@
                         <span>Male Voice</span>
                     </button>
                     <button class="voice-btn" data-value="Duet">
+                        <span class="voice-badge voice-badge-fav">MOTHER'S FAVORITE</span>
                         <span class="voice-icon">💑</span>
                         <span>Duet</span>
-                        <small>Male & Female</small>
+                        <small>Male &amp; Female</small>
                     </button>
                     <button class="voice-btn" data-value="Surprise">
                         <span class="voice-icon">🎲</span>
@@ -467,11 +588,16 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="senderName">Your Name (Optional)</label>
-                    <input type="text" id="senderName" placeholder="We can include your name in the lyrics">
+                    <input type="text" id="senderName" placeholder="May be mentioned in the song">
+                    <span class="form-hint">We can include your name as the gift giver in the lyrics</span>
+                </div>
+                <div class="quiz-info-card quiz-info-card-green">
+                    <span class="qic-icon">⭐</span>
+                    <span>Professional studio quality audio — sounds like your favorite songs on the radio!</span>
                 </div>
                 <div class="quiz-nav">
-                    <button class="btn btn-secondary quiz-back">← Back</button>
-                    <button class="btn btn-primary quiz-next">Continue →</button>
+                    <button class="btn btn-primary btn-full btn-lg quiz-next">Continue</button>
+                    <button class="quiz-back-link quiz-back">Back</button>
                 </div>
             </div>
 
@@ -480,48 +606,202 @@
                 <h3>Share your story</h3>
                 <p class="quiz-desc">The magic is in the details — tell us everything!</p>
                 <div class="form-group">
-                    <label for="story">Key Memories & Moments *</label>
-                    <textarea id="story" rows="6" maxlength="1500" placeholder="What's your favorite memory together? What makes them laugh? Any special places, inside jokes, or nicknames?"></textarea>
+                    <label for="story">Key Memories &amp; Moments *</label>
+                    <textarea id="story" rows="6" maxlength="1500" placeholder="Tell us about your favorite memories, special moments, inside jokes, nicknames, or anything that makes them special..."></textarea>
                     <span class="form-hint"><span id="storyCount">0</span>/1500 characters — More details = more personal song!</span>
+                </div>
+                <div class="inspiration-card">
+                    <h5>Need inspiration? Try answering:</h5>
+                    <ul>
+                        <li>What's your favorite memory together?</li>
+                        <li>What makes them laugh?</li>
+                        <li>What do you admire most about them?</li>
+                        <li>Any special places, inside jokes, or nicknames?</li>
+                    </ul>
                 </div>
                 <div class="form-group">
                     <label for="specialRequests">Special Requests (Optional)</label>
-                    <textarea id="specialRequests" rows="3" maxlength="500" placeholder="Any specific phrases, styles, or elements you'd like included?"></textarea>
+                    <textarea id="specialRequests" rows="3" maxlength="500" placeholder="Any specific phrases to include, words to avoid, language preferences, or other requests..."></textarea>
+                    <span class="form-hint"><span id="specialCount">0</span>/500 characters</span>
+                </div>
+                <div class="quiz-info-card">
+                    <span class="qic-icon">🔒</span>
+                    <span>Your story is kept 100% confidential and used only for creating your song</span>
+                </div>
+                <div class="quiz-info-card">
+                    <span class="qic-icon">⭐</span>
+                    <span>Songs with detailed stories are rated 2x more emotional by recipients</span>
                 </div>
                 <div class="quiz-nav">
-                    <button class="btn btn-secondary quiz-back">← Back</button>
-                    <button class="btn btn-primary quiz-next">See My Song Preview →</button>
+                    <button class="btn btn-primary btn-full btn-lg quiz-next">See My Song Preview</button>
+                    <button class="quiz-back-link quiz-back">Back</button>
                 </div>
             </div>
 
             <!-- Step 6: Summary & Checkout -->
             <div class="quiz-step" data-step="6">
+                <span class="quiz-final-label">FINAL STEP</span>
                 <h3>Your Song Details</h3>
-                <p class="quiz-desc">Review your personalized song and place your order</p>
+                <p class="quiz-desc">Review your personalized song and choose your package</p>
+
+                <!-- Summary card -->
                 <div class="summary-card">
-                    <div class="summary-row"><span>Occasion</span><strong id="sumOccasion">—</strong></div>
-                    <div class="summary-row"><span>For</span><strong id="sumRecipient">—</strong></div>
-                    <div class="summary-row"><span>Relationship</span><strong id="sumRelationship">—</strong></div>
-                    <div class="summary-row"><span>Genre</span><strong id="sumGenre">—</strong></div>
-                    <div class="summary-row"><span>Mood</span><strong id="sumMood">—</strong></div>
-                    <div class="summary-row"><span>Voice</span><strong id="sumVoice">—</strong></div>
+                    <div class="summary-head">
+                        <div>
+                            <span class="summary-badge" id="sumOccasion">ANNIVERSARY</span>
+                            <h4 class="summary-title">Song for <span id="sumRecipient">—</span></h4>
+                        </div>
+                        <button type="button" class="summary-edit" data-goto="1">✏ Edit</button>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-cell">
+                            <span class="sc-label">RELATIONSHIP</span>
+                            <span class="sc-value" id="sumRelationship">—</span>
+                        </div>
+                        <div class="summary-cell">
+                            <span class="sc-label">GENRE</span>
+                            <span class="sc-value" id="sumGenre">—</span>
+                        </div>
+                        <div class="summary-cell">
+                            <span class="sc-label">MOOD</span>
+                            <span class="sc-value" id="sumMood">—</span>
+                        </div>
+                        <div class="summary-cell">
+                            <span class="sc-label">VOICE</span>
+                            <span class="sc-value" id="sumVoice">—</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="pricing-card">
-                    <div class="price-original" data-usd="138">$138</div>
-                    <div class="price-current" data-usd="69">$69</div>
-                    <div class="price-badge">💝 50% OFF — Limited Time!</div>
+
+                <!-- Package options -->
+                <div class="package-option" data-package="single" data-usd-total="69">
+                    <span class="pkg-check"></span>
+                    <div class="pkg-body">
+                        <div class="pkg-title">Song Only</div>
+                        <div class="pkg-desc">1 personalized song · MP3 download</div>
+                    </div>
+                    <div class="pkg-price">
+                        <span data-usd="69">$69</span>
+                    </div>
                 </div>
-                <button class="btn btn-primary btn-lg btn-full" id="checkoutBtn">
-                    Create My Song Now →
+
+                <div class="package-option selected" data-package="complete" data-usd-total="99">
+                    <span class="pkg-badge">MOST POPULAR</span>
+                    <span class="pkg-check"></span>
+                    <div class="pkg-body">
+                        <div class="pkg-title">The Complete Gift</div>
+                        <div class="pkg-desc">2 songs + FREE lyrics card · 6-hour delivery</div>
+                        <div class="pkg-save">You save <span data-usd="80">$80</span> — 2 songs for <span data-usd="30">$30</span> more!</div>
+                    </div>
+                    <div class="pkg-price">
+                        <span class="pkg-price-old" data-usd="179">$179</span>
+                        <span class="pkg-price-new" data-usd="99">$99</span>
+                    </div>
+                </div>
+
+                <!-- Second song + benefits (only visible when Complete Gift selected) -->
+                <div class="second-song-card" id="secondSongCard">
+                    <h4>🎵 Your Second Song</h4>
+                    <p class="sss-desc">Pick a style for your bonus song — or leave as "Same as first" and we'll match it.</p>
+                    <div class="form-group">
+                        <label for="secondGenre">GENRE</label>
+                        <select id="secondGenre">
+                            <option value="same">Same as first song</option>
+                            <option value="Pop">Pop</option>
+                            <option value="Rock">Rock</option>
+                            <option value="R&amp;B/Soul">R&amp;B/Soul</option>
+                            <option value="Country">Country</option>
+                            <option value="Hip-Hop">Hip-Hop</option>
+                            <option value="Jazz">Jazz</option>
+                            <option value="Acoustic">Acoustic</option>
+                            <option value="Electronic">Electronic</option>
+                            <option value="Classical">Classical</option>
+                            <option value="Folk">Folk</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="secondMood">MOOD</label>
+                        <select id="secondMood">
+                            <option value="same">Same as first song</option>
+                            <option value="Upbeat">Upbeat &amp; Celebratory</option>
+                            <option value="Romantic">Romantic &amp; Tender</option>
+                            <option value="Emotional">Emotional &amp; Moving</option>
+                            <option value="Fun">Fun &amp; Playful</option>
+                            <option value="Epic">Epic &amp; Powerful</option>
+                            <option value="Calm">Calm &amp; Peaceful</option>
+                            <option value="Nostalgic">Nostalgic &amp; Reflective</option>
+                            <option value="Energetic">Energetic &amp; Uplifting</option>
+                        </select>
+                    </div>
+
+                    <div class="benefits-title">EVERYTHING IN THE COMPLETE GIFT:</div>
+                    <ul class="benefits-list">
+                        <li>
+                            <span class="b-check">✓</span>
+                            <span class="b-label">2 Custom Songs</span>
+                            <span class="b-price" data-usd="158">$158</span>
+                        </li>
+                        <li>
+                            <span class="b-check">✓</span>
+                            <span class="b-label">MP3 + WAV Downloads</span>
+                            <span class="b-price" data-usd="49">$49</span>
+                        </li>
+                        <li>
+                            <span class="b-check">✓</span>
+                            <span class="b-label">2 Free Revisions</span>
+                            <span class="b-price" data-usd="79">$79</span>
+                        </li>
+                        <li>
+                            <span class="b-check">✓</span>
+                            <span class="b-label">Priority 6 Hour Delivery</span>
+                            <span class="b-price" data-usd="49">$49</span>
+                        </li>
+                        <li class="b-gift">
+                            <span class="b-check">🎁</span>
+                            <span class="b-label">FREE GIFT: Printable Lyrics Card</span>
+                            <span class="b-price" data-usd="37">$37</span>
+                        </li>
+                    </ul>
+                    <div class="total-row">
+                        <span>Total Value: <s data-usd="372">$372</s></span>
+                        <span>You pay: <strong data-usd="99">$99</strong></span>
+                    </div>
+                </div>
+
+                <!-- Big CTA -->
+                <button class="btn btn-primary btn-lg btn-full checkout-cta" id="checkoutBtn">
+                    <span class="cta-main">Create My Song — <span id="ctaPrice" data-usd="99">$99</span></span>
                     <span class="btn-sub">⚡ Ready in just 6 hours</span>
                 </button>
-                <div class="checkout-trust">
-                    <span>⚡ Ready in 6 Hours</span>
-                    <span>💰 100% Money-Back Guarantee</span>
-                    <span>🔒 Secure Checkout</span>
+
+                <!-- Express checkout -->
+                <div class="express-checkout">
+                    <div class="express-label">EXPRESS CHECKOUT AVAILABLE</div>
+                    <div class="express-badges">
+                        <span class="exp-badge">Shop Pay</span>
+                        <span class="exp-badge">Apple Pay</span>
+                        <span class="exp-badge">Google Pay</span>
+                        <span class="exp-badge">PayPal</span>
+                    </div>
                 </div>
+
+                <!-- Trust items -->
+                <div class="checkout-trust">
+                    <span>🔒 Secure Checkout</span>
+                    <span>💰 Money-Back Guarantee</span>
+                    <span>⚡ 6h Delivery</span>
+                </div>
+
+                <!-- Testimonial -->
+                <div class="checkout-review">
+                    <div class="cr-stars">★★★★★</div>
+                    <p>"My wife cried happy tears. Best gift I've ever given. The lyrics card is framed in our bedroom."</p>
+                    <span class="cr-author">— Michael R., Verified Buyer</span>
+                </div>
+
+                <!-- Back -->
                 <div class="quiz-nav">
-                    <button class="btn btn-secondary quiz-back">← Edit Details</button>
+                    <button class="quiz-back-link quiz-back">← Edit Details</button>
                 </div>
             </div>
         </div>
