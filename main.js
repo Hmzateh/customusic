@@ -260,19 +260,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============ NAVBAR SCROLL EFFECT ============
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        const navbar = document.getElementById('navbar');
+    const navbar = document.getElementById('navbar');
+    const announcementBar = document.querySelector('.announcement-bar');
+
+    const updateNavbar = () => {
+        if (!navbar) return;
         const scrollY = window.scrollY;
-        
-        if (scrollY > 100) {
-            navbar.style.background = 'rgba(10, 10, 15, 0.95)';
-        } else {
-            navbar.style.background = 'rgba(10, 10, 15, 0.85)';
+
+        // Navbar sits just below the announcement bar at rest, then slides
+        // up and pins to 0 as the bar scrolls off screen.
+        if (announcementBar) {
+            const barH = announcementBar.offsetHeight;
+            const offset = Math.max(0, barH - scrollY);
+            navbar.style.top = offset + 'px';
         }
-        
-        lastScroll = scrollY;
-    });
+
+        navbar.style.background = scrollY > 100
+            ? 'rgba(10, 10, 15, 0.95)'
+            : 'rgba(10, 10, 15, 0.85)';
+    };
+
+    updateNavbar();
+    window.addEventListener('scroll', updateNavbar, { passive: true });
+    window.addEventListener('resize', updateNavbar);
 
     // ============ SMOOTH SCROLL FOR ANCHORS ============
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
