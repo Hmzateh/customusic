@@ -144,9 +144,10 @@ Exemple de ton :
 
 ## TITRES :
 
-* PAS de majuscule à chaque mot
-  * NON : "Best Gaming Laptop For Beginners"
-  * OUI : "best gaming laptop for beginners"
+* Sentence case : majuscule UNIQUEMENT sur la première lettre
+  * NON : "Best Gaming Laptop For Beginners" (Title Case)
+  * NON : "best gaming laptop for beginners" (tout en minuscules)
+  * OUI : "Best gaming laptop for beginners" (Sentence case)
 
 ---
 
