@@ -200,6 +200,53 @@ Si des articles existent déjà sur le site :
 
 ---
 
+# OPTIMISATION RANKMATH (OBLIGATOIRE - viser 90+/100)
+
+Chaque article DOIT respecter ces critères pour scorer 90+ sur RankMath :
+
+## Basic SEO (tous obligatoires)
+
+* **Focus keyword dans le SEO title** (titre meta)
+* **Focus keyword dans la meta description** (150-160 caractères)
+* **Focus keyword dans l'URL/slug**
+* **Focus keyword dans les 10% du début du contenu** (première ou deuxième phrase)
+* **Focus keyword dans le contenu** : utiliser le focus keyword exact 5 à 8 fois (densité ~1%)
+* **Contenu minimum 1500 mots**
+
+## Additional (tous obligatoires)
+
+* **Au moins 1 lien externe** vers une source pertinente (site officiel du jeu, Steam, wiki)
+* **Au moins 1 lien interne** vers un article existant du site
+* **Au moins 1 image** avec alt tag contenant le focus keyword (fournir la balise img dans le HTML)
+* **Focus keyword dans au moins 1 H2**
+* **Pas de focus keyword dans le H1 en double** (ne pas suroptimiser le titre)
+* **Longueur du titre SEO** : entre 50 et 60 caractères
+
+## Title Readability
+
+* Titre entre 50 et 60 caractères
+* Contient un chiffre (ex: 2026)
+* Contient un power word si possible (best, top, guide, ultimate)
+
+## Content Readability
+
+* Paragraphes courts : max 100-120 mots par paragraphe
+* Phrases courtes en majorité : pas plus de 20 mots par phrase en moyenne
+* Utiliser des listes a puces regulierement
+* Ajouter des sous-titres (H2/H3) toutes les 200-300 mots
+
+## Format de sortie RankMath
+
+Pour chaque article, fournir aussi :
+
+* **SEO Title** (50-60 chars, avec focus keyword)
+* **Meta Description** (150-160 chars, avec focus keyword)
+* **Slug** (avec focus keyword)
+* **Focus Keyword** (le mot-cle exact a entrer dans RankMath)
+* **Balise img suggeree** avec alt tag optimise
+
+---
+
 # ERREURS INTERDITES
 
 * écrire comme une IA
