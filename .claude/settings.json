@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "wordpress": {
+      "command": "npx",
+      "args": [
+        "claudeus-wp-mcp",
+        "--wp-sites-path",
+        ".claude/wp-sites.json"
+      ]
+    }
+  }
+}
