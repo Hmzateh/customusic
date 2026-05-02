@@ -276,8 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         navbar.style.background = scrollY > 100
-            ? 'rgba(10, 10, 15, 0.95)'
-            : 'rgba(10, 10, 15, 0.85)';
+            ? 'rgba(10, 8, 20, 0.95)'
+            : 'rgba(10, 8, 20, 0.85)';
     };
 
     updateNavbar();
@@ -549,16 +549,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!wordEl) return;
 
         const words = [
-            'a healing heart',
-            'your first love',
-            'your mom',
-            'your best friend',
-            'your dog',
-            'a new baby',
-            'a wedding day',
-            'a broken heart',
-            'the one who got away',
-            'your soulmate'
+            'what you can\'t',
+            'I love you',
+            'thank you, Mom',
+            'I\'m proud of you',
+            'I miss you',
+            'will you marry me',
+            'happy birthday',
+            'I forgive you',
+            'goodbye',
+            'I\'m still here'
         ];
 
         let i = 0;
