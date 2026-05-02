@@ -1,5 +1,5 @@
 /* ============================================
-   LuuvTune Clone — Main JavaScript
+   Lyralo — Main JavaScript
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {

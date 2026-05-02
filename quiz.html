@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="robots" content="noindex,follow">
+    <title>Create Your Song — Lyralo</title>
+    <meta name="description" content="Answer a few quick questions and we'll craft a one-of-a-kind song for your special someone. Ready in 6 hours.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    /* ========== TOKENS ========== */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#0a0a0f;
+      --bg-2:#11111a;
+      --surface:#16161f;
+      --surface-2:#1c1c28;
+      --border:rgba(255,255,255,.08);
+      --border-soft:rgba(255,255,255,.05);
+      --text:#f0f0f5;
+      --text-2:#a8a8b8;
+      --text-3:#6a6a7a;
+      --accent:#e84393;
+      --accent-2:#fd79a8;
+      --accent-glow:rgba(232,67,147,.35);
+      --gold:#f9ca24;
+      --green:#00b894;
+      --purple:#a29bfe;
+      --radius:14px;
+      --radius-lg:20px;
+      --shadow:0 10px 40px rgba(0,0,0,.45);
+      --font:'DM Sans',-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;
+      --display:'Playfair Display',Georgia,serif;
+    }
+    html,body{height:100%}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{
+      font-family:var(--font);
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      overflow:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;border:0;background:none;font-family:inherit;color:inherit}
+    input,textarea,select{font-family:inherit;font-size:1rem;color:inherit}
+    img{max-width:100%;display:block}
+
+    /* ========== BACKGROUND ATMOSPHERE ========== */
+    .bg-fx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;animation:float 18s ease-in-out infinite}
+    .orb-1{width:520px;height:520px;background:radial-gradient(circle,#e84393 0%,transparent 70%);top:-160px;left:-140px}
+    .orb-2{width:460px;height:460px;background:radial-gradient(circle,#a29bfe 0%,transparent 70%);bottom:-180px;right:-160px;animation-delay:-6s}
+    .orb-3{width:380px;height:380px;background:radial-gradient(circle,#fd79a8 0%,transparent 70%);top:30%;left:55%;animation-delay:-12s;opacity:.35}
+    .grid-fx{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(28px,-32px) scale(1.05)}}
+
+    /* ========== APP SHELL ========== */
+    .app{position:relative;z-index:1;height:100dvh;display:flex;flex-direction:column}
+
+    /* HEADER */
+    .topbar{
+      flex:0 0 auto;
+      display:flex;align-items:center;gap:16px;
+      padding:14px 24px;
+      border-bottom:1px solid var(--border-soft);
+      background:rgba(10,10,15,.6);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em;font-size:1.05rem}
+    .brand-mark{
+      width:28px;height:28px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      border-radius:8px;font-size:.95rem;
+      box-shadow:0 4px 14px var(--accent-glow);
+    }
+    .progress{flex:1;display:flex;align-items:center;gap:14px;max-width:520px;margin:0 auto}
+    .progress-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+    .progress-fill{height:100%;width:16.6%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px var(--accent-glow)}
+    .progress-label{font-size:.82rem;color:var(--text-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+    .exit-link{font-size:.85rem;color:var(--text-3);transition:color .2s;display:flex;align-items:center;gap:6px}
+    .exit-link:hover{color:var(--text-2)}
+
+    /* STAGE — fills viewport */
+    .stage{
+      flex:1 1 auto;position:relative;overflow:hidden;
+      display:flex;
+    }
+    .stage-inner{
+      flex:1;display:flex;align-items:center;justify-content:center;
+      padding:24px;
+      overflow-y:auto;overflow-x:hidden;
+      scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent;
+    }
+    .stage-inner::-webkit-scrollbar{width:8px}
+    .stage-inner::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:99px}
+
+    /* STEP — only active is visible */
+    .step{
+      width:100%;max-width:780px;
+      display:none;
+      animation:slideIn .45s cubic-bezier(.16,1,.3,1) both;
+    }
+    .step.active{display:block}
+    @keyframes slideIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+    .step-eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+    .step-eyebrow::before{content:"";width:18px;height:1.5px;background:var(--accent)}
+    .step h2{font-family:var(--display);font-size:clamp(1.7rem,3.6vw,2.4rem);line-height:1.15;letter-spacing:-.015em;font-weight:700;margin-bottom:8px}
+    .step .lead{color:var(--text-2);font-size:1.02rem;margin-bottom:24px;max-width:60ch}
+
+    /* SIDE PANEL (desktop only) */
+    .sidepanel{
+      flex:0 0 340px;display:none;flex-direction:column;
+      padding:28px 26px;
+      border-left:1px solid var(--border-soft);
+      background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+    }
+    .sidepanel h3{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+    .sp-card{
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+      padding:16px;margin-bottom:14px;
+    }
+    .sp-quote{font-size:.95rem;line-height:1.5;color:var(--text);margin-bottom:10px}
+    .sp-quote::before{content:"❝";color:var(--accent);font-size:1.4rem;font-family:var(--display);line-height:0;display:block;margin-bottom:6px}
+    .sp-author{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--text-2)}
+    .sp-author-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:grid;place-items:center;font-weight:700;font-size:.8rem;color:white;flex:0 0 30px}
+    .sp-stars{color:var(--gold);font-size:.85rem;letter-spacing:1px;margin-bottom:6px}
+    .sp-trust{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+    .sp-trust-row{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--text-2)}
+    .sp-trust-row svg{flex:0 0 18px;color:var(--green)}
+
+    /* OPTIONS — occasion grid */
+    .grid{display:grid;gap:10px}
+    .grid-occ{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+    .opt{
+      position:relative;
+      background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
+      padding:18px 14px;text-align:center;
+      transition:transform .18s,border-color .18s,background .18s;
+      display:flex;flex-direction:column;align-items:center;gap:8px;
+      min-height:108px;
+    }
+    .opt:hover{border-color:rgba(232,67,147,.5);background:var(--surface-2);transform:translateY(-2px)}
+    .opt.selected{border-color:var(--accent);background:linear-gradient(180deg,rgba(232,67,147,.12),var(--surface-2));box-shadow:0 0 0 3px rgba(232,67,147,.15),0 8px 24px rgba(232,67,147,.18)}
+    .opt-icon{font-size:1.7rem;line-height:1}
+    .opt-label{font-size:.95rem;font-weight:500;color:var(--text)}
+    .opt-tag{
+      position:absolute;top:-8px;right:10px;
+      font-size:.62rem;font-weight:700;letter-spacing:.08em;
+      padding:3px 8px;border-radius:99px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;
+      text-transform:uppercase;
+    }
+    .opt-tag.gold{background:linear-gradient(135deg,#f9ca24,#f0932b);color:#1a1a2e}
+    .opt-tag.purple{background:linear-gradient(135deg,var(--purple),#6c5ce7);color:white}
+
+    /* GENRE LIST — single-column rows on desktop */
+    .grid-genre{grid-template-columns:repeat(2,1fr);gap:8px}
+    .row{
+      display:flex;align-items:center;gap:14px;
+      background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
+      padding:14px 16px;text-align:left;transition:.2s;
+    }
+    .row:hover{border-color:rgba(232,67,147,.5);background:var(--surface-2)}
+    .row.selected{border-color:var(--accent);background:linear-gradient(90deg,rgba(232,67,147,.10),var(--surface-2));box-shadow:0 0 0 3px rgba(232,67,147,.15)}
+    .row-radio{
+      flex:0 0 18px;width:18px;height:18px;border-radius:50%;
+      border:2px solid var(--border);position:relative;transition:.2s;
+    }
+    .row.selected .row-radio{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 3px rgba(232,67,147,.2)}
+    .row.selected .row-radio::after{content:"";position:absolute;inset:3px;background:white;border-radius:50%}
+    .row-body{flex:1;min-width:0}
+    .row-name{font-weight:600;font-size:.98rem;color:var(--text);display:flex;align-items:center;gap:8px}
+    .row-desc{font-size:.82rem;color:var(--text-3);margin-top:2px}
+    .row-tag{font-size:.6rem;font-weight:700;letter-spacing:.08em;padding:2px 7px;border-radius:99px;background:rgba(232,67,147,.15);color:var(--accent);text-transform:uppercase}
+    .row-tag.hot{background:rgba(249,202,36,.15);color:var(--gold)}
+
+    /* MOOD PILLS */
+    .pills{display:flex;flex-wrap:wrap;gap:8px}
+    .pill{
+      padding:10px 16px;border-radius:99px;background:var(--surface);
+      border:1.5px solid var(--border);font-size:.92rem;font-weight:500;color:var(--text-2);
+      transition:.2s;
+    }
+    .pill:hover{border-color:rgba(232,67,147,.5);color:var(--text);background:var(--surface-2)}
+    .pill.selected{border-color:var(--accent);background:linear-gradient(90deg,rgba(232,67,147,.18),rgba(253,121,168,.12));color:var(--text);box-shadow:0 0 0 3px rgba(232,67,147,.15)}
+
+    .subhead{
+      display:flex;align-items:center;gap:10px;margin:22px 0 12px;
+      font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:600;
+    }
+    .subhead::after{content:"";flex:1;height:1px;background:var(--border)}
+
+    /* FORM */
+    .field{margin-bottom:16px}
+    .field label{display:block;font-size:.85rem;font-weight:600;color:var(--text-2);margin-bottom:6px;letter-spacing:.02em}
+    .field label .req{color:var(--accent);margin-left:2px}
+    .field input,.field textarea,.field select{
+      width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
+      padding:14px 16px;color:var(--text);transition:.2s;
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{
+      outline:none;border-color:var(--accent);background:var(--surface-2);
+      box-shadow:0 0 0 3px rgba(232,67,147,.18);
+    }
+    .field textarea{resize:vertical;min-height:140px;line-height:1.55;font-family:inherit}
+    .field .hint{display:block;font-size:.78rem;color:var(--text-3);margin-top:6px}
+    .field .hint .count{color:var(--text-2);font-weight:600}
+
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:560px){.field-row{grid-template-columns:1fr}}
+
+    .tips-card{
+      background:linear-gradient(180deg,rgba(232,67,147,.08),rgba(232,67,147,.03));
+      border:1px solid rgba(232,67,147,.18);
+      border-radius:var(--radius);padding:14px 16px;margin:8px 0 18px;
+    }
+    .tips-card h5{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+    .tips-card ul{list-style:none;display:grid;gap:5px}
+    .tips-card li{font-size:.88rem;color:var(--text-2);padding-left:18px;position:relative;line-height:1.5}
+    .tips-card li::before{content:"♪";position:absolute;left:0;color:var(--accent);font-weight:700}
+
+    /* VOICE GRID */
+    .grid-voice{grid-template-columns:repeat(4,1fr);gap:10px}
+    @media (max-width:680px){.grid-voice{grid-template-columns:repeat(2,1fr)}}
+    .voice{
+      position:relative;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
+      padding:18px 12px;text-align:center;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:6px;
+      min-height:130px;justify-content:center;
+    }
+    .voice:hover{border-color:rgba(232,67,147,.5);background:var(--surface-2);transform:translateY(-2px)}
+    .voice.selected{border-color:var(--accent);background:linear-gradient(180deg,rgba(232,67,147,.12),var(--surface-2));box-shadow:0 0 0 3px rgba(232,67,147,.15)}
+    .voice-icon{font-size:2rem;line-height:1}
+    .voice-name{font-weight:600;font-size:.95rem}
+    .voice-sub{font-size:.75rem;color:var(--text-3)}
+    .voice-tag{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:.6rem;font-weight:700;letter-spacing:.06em;padding:3px 8px;border-radius:99px;background:linear-gradient(135deg,var(--gold),#f0932b);color:#1a1a2e;text-transform:uppercase;white-space:nowrap}
+
+    /* SUMMARY (final step) */
+    .summary{
+      background:linear-gradient(135deg,rgba(232,67,147,.08),rgba(162,155,254,.06));
+      border:1px solid rgba(232,67,147,.2);
+      border-radius:var(--radius-lg);padding:18px;margin-bottom:18px;
+    }
+    .summary-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:10px}
+    .summary-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:99px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;text-transform:uppercase;margin-bottom:6px}
+    .summary-title{font-family:var(--display);font-size:1.3rem;font-weight:700}
+    .summary-edit{font-size:.82rem;color:var(--accent);font-weight:600;padding:6px 10px;border-radius:8px;transition:.2s}
+    .summary-edit:hover{background:rgba(232,67,147,.1)}
+    .summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .sum-cell{background:rgba(0,0,0,.25);border:1px solid var(--border-soft);border-radius:10px;padding:10px 12px}
+    .sum-label{display:block;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:2px;font-weight:600}
+    .sum-value{font-size:.92rem;font-weight:600;color:var(--text)}
+
+    /* PACKAGES */
+    .pkg{
+      position:relative;display:flex;align-items:center;gap:14px;
+      background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);
+      padding:16px;margin-bottom:10px;transition:.2s;cursor:pointer;
+    }
+    .pkg:hover{border-color:rgba(232,67,147,.5)}
+    .pkg.selected{border-color:var(--accent);background:linear-gradient(90deg,rgba(232,67,147,.08),var(--surface-2));box-shadow:0 0 0 3px rgba(232,67,147,.15)}
+    .pkg-check{flex:0 0 22px;width:22px;height:22px;border-radius:50%;border:2px solid var(--border);position:relative;transition:.2s}
+    .pkg.selected .pkg-check{border-color:var(--accent);background:var(--accent)}
+    .pkg.selected .pkg-check::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:white;font-size:.75rem;font-weight:700}
+    .pkg-body{flex:1;min-width:0}
+    .pkg-title{font-weight:700;font-size:1rem}
+    .pkg-desc{font-size:.82rem;color:var(--text-3);margin-top:2px}
+    .pkg-save{font-size:.78rem;color:var(--green);margin-top:4px;font-weight:600}
+    .pkg-price{text-align:right;flex:0 0 auto}
+    .pkg-old{display:block;font-size:.82rem;color:var(--text-3);text-decoration:line-through}
+    .pkg-new{font-size:1.25rem;font-weight:700;color:var(--text)}
+    .pkg-badge{position:absolute;top:-9px;right:14px;font-size:.62rem;font-weight:700;letter-spacing:.08em;padding:3px 9px;border-radius:99px;background:linear-gradient(135deg,var(--gold),#f0932b);color:#1a1a2e;text-transform:uppercase}
+
+    .checkout-trust{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:14px 0;font-size:.82rem;color:var(--text-2)}
+
+    /* CTA + FOOTER BAR */
+    .footbar{
+      flex:0 0 auto;
+      padding:14px 24px calc(14px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg,rgba(10,10,15,0),rgba(10,10,15,.85) 30%);
+      border-top:1px solid var(--border-soft);
+      display:flex;align-items:center;gap:14px;
+    }
+    .back-btn{
+      display:inline-flex;align-items:center;gap:6px;padding:12px 14px;
+      color:var(--text-2);font-weight:500;font-size:.92rem;border-radius:var(--radius);
+      transition:.2s;
+    }
+    .back-btn:hover{color:var(--text);background:rgba(255,255,255,.04)}
+    .back-btn:disabled{opacity:.35;cursor:not-allowed}
+    .next-btn{
+      flex:1;max-width:380px;margin-left:auto;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:15px 22px;border-radius:var(--radius);
+      background:linear-gradient(135deg,var(--accent),#d63384);
+      color:white;font-weight:700;font-size:1rem;
+      box-shadow:0 6px 22px var(--accent-glow);
+      transition:.2s;
+    }
+    .next-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 30px var(--accent-glow)}
+    .next-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+    .next-btn .arr{transition:transform .25s}
+    .next-btn:hover:not(:disabled) .arr{transform:translateX(3px)}
+    .footbar-meta{display:none;font-size:.78rem;color:var(--text-3);margin-right:auto}
+
+    /* LIVE BADGE */
+    .live{
+      position:fixed;left:18px;bottom:90px;z-index:5;
+      display:flex;align-items:center;gap:10px;
+      background:rgba(10,10,15,.85);border:1px solid var(--border);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      padding:10px 14px;border-radius:99px;
+      font-size:.82rem;color:var(--text-2);
+      box-shadow:var(--shadow);
+      animation:slideUp .5s cubic-bezier(.16,1,.3,1) .8s both;
+      max-width:calc(100vw - 36px);
+    }
+    .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(0,184,148,.6);animation:livePulse 1.6s infinite}
+    .live strong{color:var(--text);font-weight:600}
+    @keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(0,184,148,.6)}70%{box-shadow:0 0 0 10px rgba(0,184,148,0)}100%{box-shadow:0 0 0 0 rgba(0,184,148,0)}}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    /* WELCOME STEP (step 0) */
+    .welcome{text-align:center;max-width:620px;margin:0 auto}
+    .welcome-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(232,67,147,.12);border:1px solid rgba(232,67,147,.25);color:var(--accent);font-size:.82rem;font-weight:600;margin-bottom:18px}
+    .welcome h1{font-family:var(--display);font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.1;letter-spacing:-.02em;font-weight:700;margin-bottom:14px}
+    .welcome h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent-2),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .welcome-lead{color:var(--text-2);font-size:1.08rem;margin-bottom:26px;max-width:50ch;margin-left:auto;margin-right:auto}
+    .welcome-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;margin-top:22px;font-size:.85rem;color:var(--text-2)}
+    .welcome-meta span{display:flex;align-items:center;gap:6px}
+    .welcome-meta svg{color:var(--green);flex:0 0 16px}
+    .welcome-stars{color:var(--gold);letter-spacing:2px;font-size:1rem;margin-bottom:8px}
+    .welcome-stars-row{display:flex;align-items:center;justify-content:center;gap:8px;font-size:.85rem;color:var(--text-2);margin-bottom:18px}
+
+    /* DESKTOP LAYOUT */
+    @media (min-width:1024px){
+      .stage{display:flex}
+      .sidepanel{display:flex}
+      .footbar-meta{display:block}
+    }
+    @media (max-width:560px){
+      .topbar{padding:12px 16px;gap:10px}
+      .stage-inner{padding:18px 16px}
+      .footbar{padding:10px 16px calc(10px + env(safe-area-inset-bottom));gap:8px}
+      .next-btn{padding:14px 16px;font-size:.95rem}
+      .step h2{font-size:1.6rem}
+      .live{left:10px;right:10px;bottom:78px;justify-content:center}
+      .grid-occ{grid-template-columns:repeat(2,1fr)}
+      .grid-genre{grid-template-columns:1fr}
+      .summary-grid{grid-template-columns:1fr}
+    }
+    @media (min-width:561px) and (max-width:900px){
+      .grid-occ{grid-template-columns:repeat(3,1fr)}
+    }
+
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    </style>
+</head>
+<body>
+
+<div class="bg-fx" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-fx"></div>
+</div>
+
+<div class="app">
+
+    <!-- ========== HEADER ========== -->
+    <header class="topbar">
+        <a href="/" class="brand" aria-label="Lyralo home">
+            <span class="brand-mark">♪</span>
+            <span>Lyralo</span>
+        </a>
+        <div class="progress" aria-hidden="true">
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-label"><span id="stepCurrent">1</span>&nbsp;/&nbsp;6</span>
+        </div>
+        <a href="/" class="exit-link" aria-label="Save and exit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            <span class="hide-sm">Exit</span>
+        </a>
+    </header>
+
+    <!-- ========== STAGE ========== -->
+    <main class="stage">
+
+        <div class="stage-inner">
+
+            <!-- ===== STEP 0 — WELCOME (intro) ===== -->
+            <section class="step active welcome" data-step="0">
+                <div class="welcome-pill">
+                    <span style="display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%"></span>
+                    Crafted by real artists · Ready in 6h
+                </div>
+                <h1>Make a song about <em>your story</em></h1>
+                <p class="welcome-lead">Answer 5 quick questions and we'll craft a one-of-a-kind song — lyrics, melody and vocals — inspired entirely by the moments that matter to you.</p>
+                <div class="welcome-stars-row">
+                    <span class="welcome-stars">★★★★★</span>
+                    <span><strong style="color:var(--text)">4.9/5</strong> from 2,500+ happy customers</span>
+                </div>
+                <div class="welcome-meta">
+                    <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Takes 3 minutes</span>
+                    <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>100% personal</span>
+                    <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Free revisions</span>
+                </div>
+            </section>
+
+            <!-- ===== STEP 1 — OCCASION ===== -->
+            <section class="step" data-step="1">
+                <span class="step-eyebrow">Step 1 of 6 · Occasion</span>
+                <h2>What's the occasion?</h2>
+                <p class="lead">Pick the moment your song will celebrate.</p>
+                <div class="grid grid-occ" role="radiogroup" aria-label="Occasion">
+                    <button type="button" class="opt" data-q="occasion" data-value="Anniversary">
+                        <span class="opt-tag">♥ Love</span>
+                        <span class="opt-icon">❤️</span>
+                        <span class="opt-label">Anniversary</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Birthday">
+                        <span class="opt-icon">🎂</span>
+                        <span class="opt-label">Birthday</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Mother's Day">
+                        <span class="opt-tag gold">Trending</span>
+                        <span class="opt-icon">🌸</span>
+                        <span class="opt-label">Mother's Day</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Wedding">
+                        <span class="opt-icon">💒</span>
+                        <span class="opt-label">Wedding</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Valentine's Day">
+                        <span class="opt-icon">💝</span>
+                        <span class="opt-label">Valentine's Day</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Father's Day">
+                        <span class="opt-icon">👨</span>
+                        <span class="opt-label">Father's Day</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Engagement">
+                        <span class="opt-icon">💍</span>
+                        <span class="opt-label">Engagement</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="New Baby">
+                        <span class="opt-icon">👶</span>
+                        <span class="opt-label">New Baby</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Graduation">
+                        <span class="opt-icon">🎓</span>
+                        <span class="opt-label">Graduation</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Christmas">
+                        <span class="opt-icon">🎄</span>
+                        <span class="opt-label">Christmas</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Memorial/Tribute">
+                        <span class="opt-tag purple">Tribute</span>
+                        <span class="opt-icon">🕊️</span>
+                        <span class="opt-label">Memorial</span>
+                    </button>
+                    <button type="button" class="opt" data-q="occasion" data-value="Just Because">
+                        <span class="opt-icon">✨</span>
+                        <span class="opt-label">Just Because</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ===== STEP 2 — RECIPIENT ===== -->
+            <section class="step" data-step="2">
+                <span class="step-eyebrow">Step 2 of 6 · Recipient</span>
+                <h2>Who's the lucky person?</h2>
+                <p class="lead">We'll weave their name and your bond right into the lyrics.</p>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="recipientName">Their name<span class="req">*</span></label>
+                        <input type="text" id="recipientName" placeholder="e.g. Sarah, Mom, David…" autocomplete="off" required>
+                        <span class="hint">May appear in the song's chorus or first verse.</span>
+                    </div>
+                    <div class="field">
+                        <label for="relationship">Your relationship<span class="req">*</span></label>
+                        <input type="text" id="relationship" placeholder="e.g. Wife, Best Friend, Mom…" autocomplete="off" required>
+                        <span class="hint">How are you connected to them?</span>
+                    </div>
+                </div>
+                <div class="tips-card" style="margin-top:6px">
+                    <h5>Why it matters</h5>
+                    <ul>
+                        <li>Songs that mention the recipient by name are rated 2× more emotional.</li>
+                        <li>Specific relationships unlock more authentic lyrics.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ===== STEP 3 — GENRE ===== -->
+            <section class="step" data-step="3">
+                <span class="step-eyebrow">Step 3 of 6 · Music style</span>
+                <h2>What's their music style?</h2>
+                <p class="lead">Pick the genre that fits them best — you can change the mood next.</p>
+                <div class="grid grid-genre" role="radiogroup" aria-label="Genre">
+                    <button type="button" class="row" data-q="genre" data-value="Pop">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">Pop <span class="row-tag">#1</span></span>
+                            <span class="row-desc">Contemporary &amp; catchy · most chosen</span>
+                        </span>
+                    </button>
+                    <button type="button" class="row" data-q="genre" data-value="Acoustic">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">Acoustic</span>
+                            <span class="row-desc">Intimate &amp; personal</span>
+                        </span>
+                    </button>
+                    <button type="button" class="row" data-q="genre" data-value="R&amp;B/Soul">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">R&amp;B / Soul <span class="row-tag hot">Hot</span></span>
+                            <span class="row-desc">Smooth &amp; soulful</span>
+                        </span>
+                    </button>
+                    <button type="button" class="row" data-q="genre" data-value="Country">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">Country</span>
+                            <span class="row-desc">Heartfelt storytelling</span>
+                        </span>
+                    </button>
+                    <button type="button" class="row" data-q="genre" data-value="Rock">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">Rock</span>
+                            <span class="row-desc">Guitar-driven energy</span>
+                        </span>
+                    </button>
+                    <button type="button" class="row" data-q="genre" data-value="Hip-Hop">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">Hip-Hop</span>
+                            <span class="row-desc">Modern &amp; rhythmic</span>
+                        </span>
+                    </button>
+                    <button type="button" class="row" data-q="genre" data-value="Jazz">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">Jazz</span>
+                            <span class="row-desc">Sophisticated &amp; timeless</span>
+                        </span>
+                    </button>
+                    <button type="button" class="row" data-q="genre" data-value="Folk">
+                        <span class="row-radio"></span>
+                        <span class="row-body">
+                            <span class="row-name">Folk</span>
+                            <span class="row-desc">Warm &amp; storytelling</span>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="subhead">Mood</div>
+                <div class="pills" role="radiogroup" aria-label="Mood">
+                    <button type="button" class="pill" data-q="mood" data-value="Romantic">Romantic &amp; Tender ❤️</button>
+                    <button type="button" class="pill" data-q="mood" data-value="Upbeat">Upbeat &amp; Celebratory 🎉</button>
+                    <button type="button" class="pill" data-q="mood" data-value="Emotional">Emotional &amp; Moving 😢</button>
+                    <button type="button" class="pill" data-q="mood" data-value="Fun">Fun &amp; Playful 😄</button>
+                    <button type="button" class="pill" data-q="mood" data-value="Epic">Epic &amp; Powerful ⚡</button>
+                    <button type="button" class="pill" data-q="mood" data-value="Calm">Calm &amp; Peaceful ☮</button>
+                    <button type="button" class="pill" data-q="mood" data-value="Nostalgic">Nostalgic 🌅</button>
+                    <button type="button" class="pill" data-q="mood" data-value="Energetic">Energetic 🔥</button>
+                </div>
+            </section>
+
+            <!-- ===== STEP 4 — VOICE ===== -->
+            <section class="step" data-step="4">
+                <span class="step-eyebrow">Step 4 of 6 · Voice</span>
+                <h2>Choose the voice</h2>
+                <p class="lead">Studio-quality vocals — pick the style that fits the song best.</p>
+                <div class="grid grid-voice" role="radiogroup" aria-label="Voice">
+                    <button type="button" class="voice" data-q="voice" data-value="Female">
+                        <span class="voice-icon">👩</span>
+                        <span class="voice-name">Female</span>
+                        <span class="voice-sub">Warm &amp; expressive</span>
+                    </button>
+                    <button type="button" class="voice" data-q="voice" data-value="Male">
+                        <span class="voice-icon">👨</span>
+                        <span class="voice-name">Male</span>
+                        <span class="voice-sub">Rich &amp; grounded</span>
+                    </button>
+                    <button type="button" class="voice" data-q="voice" data-value="Duet">
+                        <span class="voice-tag">Most chosen</span>
+                        <span class="voice-icon">💑</span>
+                        <span class="voice-name">Duet</span>
+                        <span class="voice-sub">Male &amp; Female</span>
+                    </button>
+                    <button type="button" class="voice" data-q="voice" data-value="Surprise">
+                        <span class="voice-icon">🎲</span>
+                        <span class="voice-name">Surprise me</span>
+                        <span class="voice-sub">Best fit for your story</span>
+                    </button>
+                </div>
+                <div class="field" style="margin-top:18px">
+                    <label for="senderName">Your name <span style="color:var(--text-3);font-weight:400">(optional)</span></label>
+                    <input type="text" id="senderName" placeholder="We can mention you as the gift giver" autocomplete="off">
+                </div>
+            </section>
+
+            <!-- ===== STEP 5 — STORY ===== -->
+            <section class="step" data-step="5">
+                <span class="step-eyebrow">Step 5 of 6 · Their story</span>
+                <h2>Share your story</h2>
+                <p class="lead">The magic is in the details — the more you tell us, the more personal your song.</p>
+                <div class="field">
+                    <label for="story">Key memories &amp; moments<span class="req">*</span></label>
+                    <textarea id="story" rows="6" maxlength="1500" placeholder="Tell us about your favorite memories, special moments, inside jokes, nicknames, or anything that makes them special…"></textarea>
+                    <span class="hint"><span class="count" id="storyCount">0</span> / 1500 characters · songs with detailed stories are rated 2× more emotional.</span>
+                </div>
+                <div class="tips-card">
+                    <h5>Need inspiration? Answer any of these:</h5>
+                    <ul>
+                        <li>What's your favorite memory together?</li>
+                        <li>What makes them laugh?</li>
+                        <li>What do you admire most about them?</li>
+                        <li>Any special places, inside jokes or nicknames?</li>
+                    </ul>
+                </div>
+                <div class="field">
+                    <label for="specialRequests">Special requests <span style="color:var(--text-3);font-weight:400">(optional)</span></label>
+                    <textarea id="specialRequests" rows="2" maxlength="500" placeholder="Specific phrases to include, words to avoid, language preferences…"></textarea>
+                    <span class="hint"><span class="count" id="specialCount">0</span> / 500 characters</span>
+                </div>
+            </section>
+
+            <!-- ===== STEP 6 — REVIEW &amp; CHECKOUT ===== -->
+            <section class="step" data-step="6">
+                <span class="step-eyebrow">Final step · Review</span>
+                <h2>Your song is ready to be made</h2>
+                <p class="lead">Review the details and pick your package — your song is delivered in 6 hours.</p>
+
+                <div class="summary">
+                    <div class="summary-head">
+                        <div>
+                            <span class="summary-tag" id="sumOccasion">YOUR SONG</span>
+                            <h3 class="summary-title">Song for <span id="sumRecipient">them</span></h3>
+                        </div>
+                        <button type="button" class="summary-edit" data-edit="1">✏ Edit</button>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="sum-cell">
+                            <span class="sum-label">Relationship</span>
+                            <span class="sum-value" id="sumRelationship">—</span>
+                        </div>
+                        <div class="sum-cell">
+                            <span class="sum-label">Genre</span>
+                            <span class="sum-value" id="sumGenre">—</span>
+                        </div>
+                        <div class="sum-cell">
+                            <span class="sum-label">Mood</span>
+                            <span class="sum-value" id="sumMood">—</span>
+                        </div>
+                        <div class="sum-cell">
+                            <span class="sum-label">Voice</span>
+                            <span class="sum-value" id="sumVoice">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pkg" data-package="single" data-usd-total="69">
+                    <span class="pkg-check"></span>
+                    <div class="pkg-body">
+                        <div class="pkg-title">Song Only</div>
+                        <div class="pkg-desc">1 personalized song · MP3 download · 6h delivery</div>
+                    </div>
+                    <div class="pkg-price">
+                        <span class="pkg-new" data-usd="69">$69</span>
+                    </div>
+                </div>
+
+                <div class="pkg selected" data-package="complete" data-usd-total="99">
+                    <span class="pkg-badge">Most popular</span>
+                    <span class="pkg-check"></span>
+                    <div class="pkg-body">
+                        <div class="pkg-title">The Complete Gift</div>
+                        <div class="pkg-desc">2 songs + lyrics card · MP3 + WAV · priority 6h delivery</div>
+                        <div class="pkg-save">Save <span data-usd="80">$80</span> — 2nd song for <span data-usd="30">$30</span> more</div>
+                    </div>
+                    <div class="pkg-price">
+                        <span class="pkg-old" data-usd="179">$179</span>
+                        <span class="pkg-new" data-usd="99">$99</span>
+                    </div>
+                </div>
+
+                <div class="checkout-trust">
+                    <span>🔒 Secure checkout</span>
+                    <span>💰 30-day money-back</span>
+                    <span>⚡ 6h delivery</span>
+                    <span>♻ Free revisions</span>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ========== SIDE PANEL (desktop) ========== -->
+        <aside class="sidepanel" aria-label="Customer reassurance">
+            <h3>Real customers · Real reactions</h3>
+
+            <div class="sp-card">
+                <div class="sp-stars">★★★★★</div>
+                <p class="sp-quote">My wife cried happy tears. Best gift I've ever given. The lyrics card is framed in our bedroom.</p>
+                <div class="sp-author">
+                    <span class="sp-author-avatar">MR</span>
+                    <span><strong style="color:var(--text)">Michael R.</strong> · Anniversary gift</span>
+                </div>
+            </div>
+
+            <div class="sp-card">
+                <div class="sp-stars">★★★★★</div>
+                <p class="sp-quote">Captured 20 years of memories in 3 minutes. Worth every penny.</p>
+                <div class="sp-author">
+                    <span class="sp-author-avatar">JM</span>
+                    <span><strong style="color:var(--text)">Jennifer M.</strong> · Anniversary gift</span>
+                </div>
+            </div>
+
+            <div class="sp-trust">
+                <div class="sp-trust-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Crafted by real artists
+                </div>
+                <div class="sp-trust-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Free unlimited revisions
+                </div>
+                <div class="sp-trust-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Delivered in 6 hours
+                </div>
+                <div class="sp-trust-row">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    100% satisfaction guarantee
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- ========== LIVE BADGE ========== -->
+    <div class="live" id="liveBadge" aria-live="polite">
+        <span class="live-dot"></span>
+        <span><strong id="liveName">Sarah</strong> just started her song · <span id="liveAgo">2 min ago</span></span>
+    </div>
+
+    <!-- ========== FOOTER BAR (CTA) ========== -->
+    <footer class="footbar">
+        <button type="button" class="back-btn" id="backBtn" aria-label="Back" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Back</span>
+        </button>
+        <span class="footbar-meta" id="footMeta">⚡ Ready in 6 hours · 4.9★ from 2,500+ customers</span>
+        <button type="button" class="next-btn" id="nextBtn">
+            <span id="nextLabel">Get started</span>
+            <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+    </footer>
+
+</div>
+
+<script>
+(function(){
+    'use strict';
+
+    // ============ STATE ============
+    var TOTAL = 6; // numbered steps (1..6); welcome is step 0
+    var current = 0;
+    var data = {
+        occasion:'', recipientName:'', relationship:'',
+        genre:'', mood:'', voice:'', senderName:'',
+        story:'', specialRequests:'',
+        package:'complete'
+    };
+
+    // Restore progress if user comes back
+    try {
+        var saved = JSON.parse(sessionStorage.getItem('ly_quiz') || 'null');
+        if (saved && typeof saved === 'object') Object.assign(data, saved);
+    } catch(e){}
+
+    var save = function(){
+        try { sessionStorage.setItem('ly_quiz', JSON.stringify(data)); } catch(e){}
+    };
+
+    // ============ DOM ============
+    var steps = document.querySelectorAll('.step');
+    var stepByIndex = {};
+    steps.forEach(function(s){ stepByIndex[s.dataset.step] = s; });
+
+    var fill = document.getElementById('progressFill');
+    var stepLabel = document.getElementById('stepCurrent');
+    var nextBtn = document.getElementById('nextBtn');
+    var nextLabel = document.getElementById('nextLabel');
+    var backBtn = document.getElementById('backBtn');
+
+    // ============ NAV ============
+    function setProgress(n){
+        var pct = Math.max(2, Math.round((Math.max(n,1) / TOTAL) * 100));
+        fill.style.width = pct + '%';
+        stepLabel.textContent = Math.max(1, n);
+    }
+
+    function applyNextLabel(n){
+        if (n === 0) nextLabel.textContent = 'Get started';
+        else if (n === 5) nextLabel.textContent = 'See my song preview';
+        else if (n === 6) nextLabel.textContent = 'Create my song';
+        else nextLabel.textContent = 'Continue';
+    }
+
+    function canAdvance(n){
+        if (n === 0) return true;
+        if (n === 1) return !!data.occasion;
+        if (n === 2) return !!(data.recipientName && data.relationship);
+        if (n === 3) return !!(data.genre && data.mood);
+        if (n === 4) return !!data.voice;
+        if (n === 5) return !!(data.story && data.story.trim().length >= 12);
+        if (n === 6) return true;
+        return false;
+    }
+
+    function refreshNextState(){
+        nextBtn.disabled = !canAdvance(current);
+    }
+
+    function goTo(n){
+        if (n < 0 || n > TOTAL) return;
+        var prev = stepByIndex[current];
+        var next = stepByIndex[n];
+        if (!next) return;
+        if (prev) prev.classList.remove('active');
+        next.classList.add('active');
+        // Reset scroll
+        document.querySelector('.stage-inner').scrollTop = 0;
+        current = n;
+        setProgress(n);
+        applyNextLabel(n);
+        backBtn.disabled = (n === 0);
+        refreshNextState();
+
+        // Auto-focus first input on form steps
+        var firstInput = next.querySelector('input,textarea');
+        if (firstInput && (n === 2 || n === 5)) {
+            setTimeout(function(){ firstInput.focus(); }, 320);
+        }
+
+        if (n === 6) renderSummary();
+    }
+
+    nextBtn.addEventListener('click', function(){
+        captureFields();
+        if (!canAdvance(current)) {
+            shakeFooter();
+            return;
+        }
+        if (current === TOTAL) {
+            handleCheckout();
+            return;
+        }
+        goTo(current + 1);
+    });
+
+    backBtn.addEventListener('click', function(){
+        if (current > 0) goTo(current - 1);
+    });
+
+    // Keyboard: Enter to advance (when not in textarea), Esc to go back
+    document.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'BUTTON') {
+            e.preventDefault();
+            nextBtn.click();
+        }
+        if (e.key === 'Escape' && current > 0) {
+            backBtn.click();
+        }
+    });
+
+    function shakeFooter(){
+        nextBtn.animate([
+            { transform:'translateX(0)' },
+            { transform:'translateX(-6px)' },
+            { transform:'translateX(6px)' },
+            { transform:'translateX(0)' }
+        ], { duration:240, easing:'ease-in-out' });
+    }
+
+    // ============ SELECTIONS ============
+    document.querySelectorAll('[data-q]').forEach(function(btn){
+        btn.addEventListener('click', function(){
+            var q = btn.dataset.q;
+            var v = btn.dataset.value;
+            var siblings = document.querySelectorAll('[data-q="'+q+'"]');
+            siblings.forEach(function(s){ s.classList.remove('selected'); });
+            btn.classList.add('selected');
+            data[q] = v;
+            save();
+            refreshNextState();
+
+            // Auto-advance for single-pick steps
+            if (q === 'occasion' || q === 'voice') {
+                setTimeout(function(){
+                    if (canAdvance(current)) goTo(current + 1);
+                }, 320);
+            }
+            // Genre+mood share step 3 — only auto-advance once both picked
+            if ((q === 'genre' || q === 'mood') && data.genre && data.mood) {
+                // Don't auto-advance: user might want to change after picking both;
+                // but enable the next button so they feel ready.
+            }
+        });
+    });
+
+    // ============ TEXT FIELDS ============
+    function bindField(id, key, counterId){
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.value = data[key] || '';
+        el.addEventListener('input', function(){
+            data[key] = el.value;
+            if (counterId) {
+                var c = document.getElementById(counterId);
+                if (c) c.textContent = el.value.length;
+            }
+            save();
+            refreshNextState();
+        });
+    }
+    bindField('recipientName', 'recipientName');
+    bindField('relationship', 'relationship');
+    bindField('senderName', 'senderName');
+    bindField('story', 'story', 'storyCount');
+    bindField('specialRequests', 'specialRequests', 'specialCount');
+
+    function captureFields(){
+        ['recipientName','relationship','senderName','story','specialRequests'].forEach(function(id){
+            var el = document.getElementById(id);
+            if (el) data[id === 'recipientName' ? 'recipientName' : (id === 'relationship' ? 'relationship' : id)] = el.value;
+        });
+        save();
+    }
+
+    // Restore selected buttons from saved data
+    function restoreSelections(){
+        ['occasion','genre','mood','voice'].forEach(function(q){
+            if (!data[q]) return;
+            var btn = document.querySelector('[data-q="'+q+'"][data-value="'+data[q].replace(/"/g,'\\"')+'"]');
+            if (btn) btn.classList.add('selected');
+        });
+    }
+
+    // ============ SUMMARY ============
+    function renderSummary(){
+        var setText = function(id, v, fb){
+            var el = document.getElementById(id);
+            if (el) el.textContent = (v && String(v).trim()) || fb || '—';
+        };
+        setText('sumOccasion', (data.occasion || 'Your song').toUpperCase(), 'YOUR SONG');
+        setText('sumRecipient', data.recipientName, 'them');
+        setText('sumRelationship', data.relationship, '—');
+        setText('sumGenre', data.genre, '—');
+        setText('sumMood', data.mood, '—');
+        setText('sumVoice', data.voice, '—');
+    }
+
+    document.querySelectorAll('[data-edit]').forEach(function(b){
+        b.addEventListener('click', function(){
+            var to = parseInt(b.dataset.edit, 10) || 1;
+            goTo(to);
+        });
+    });
+
+    // ============ PACKAGES ============
+    document.querySelectorAll('.pkg').forEach(function(p){
+        p.addEventListener('click', function(){
+            document.querySelectorAll('.pkg').forEach(function(o){ o.classList.remove('selected'); });
+            p.classList.add('selected');
+            data.package = p.dataset.package;
+            save();
+        });
+    });
+
+    // ============ CHECKOUT ============
+    function handleCheckout(){
+        if (!data.occasion || !data.recipientName || !data.genre || !data.mood || !data.voice || !data.story) {
+            alert('Please fill in all fields before checking out.');
+            return;
+        }
+        // In production, redirect to /cart/add or backend.
+        console.log('Lyralo order:', data);
+        alert('🎵 Order ready! In production this redirects to checkout.\n\nPackage: ' + data.package);
+    }
+
+    // ============ LIVE SOCIAL PROOF ============
+    var liveNames = ['Sarah','Michael','Emma','David','Olivia','James','Ava','Noah','Sophia','Liam','Mia','Ethan'];
+    var liveActions = ['just started her song','ordered a Mother\'s Day song','picked the Complete Gift','just finished her quiz','ordered an anniversary song'];
+    var liveAgos = ['just now','1 min ago','2 min ago','4 min ago','6 min ago','8 min ago'];
+    var liveBadge = document.getElementById('liveBadge');
+    var liveName = document.getElementById('liveName');
+    var liveAgoEl = document.getElementById('liveAgo');
+
+    function rotateLive(){
+        var n = liveNames[Math.floor(Math.random()*liveNames.length)];
+        var a = liveAgos[Math.floor(Math.random()*liveAgos.length)];
+        liveBadge.style.opacity = '0';
+        setTimeout(function(){
+            liveName.textContent = n;
+            liveAgoEl.textContent = a;
+            liveBadge.style.opacity = '';
+        }, 320);
+    }
+    setInterval(rotateLive, 9000);
+
+    // ============ INIT ============
+    restoreSelections();
+    setProgress(1);
+    applyNextLabel(0);
+    refreshNextState();
+
+    // ============ GEO PRICING ============
+    (function initPricing(){
+        var LOCALES = {
+            US:{c:'USD',l:'en-US'}, CA:{c:'CAD',l:'en-CA'}, GB:{c:'GBP',l:'en-GB'},
+            UK:{c:'GBP',l:'en-GB'}, AU:{c:'AUD',l:'en-AU'}, NZ:{c:'NZD',l:'en-NZ'}, IE:{c:'EUR',l:'en-IE'}
+        };
+        var FALLBACK = { USD:1, CAD:1.37, GBP:0.79, AUD:1.52, NZD:1.65, EUR:0.92 };
+
+        function fmt(usd, loc, rate){
+            var amt = Math.round(usd * rate);
+            try {
+                return new Intl.NumberFormat(loc.l, { style:'currency', currency:loc.c, maximumFractionDigits:0, minimumFractionDigits:0 }).format(amt);
+            } catch(e){ return loc.c + ' ' + amt; }
+        }
+        function render(country, rates){
+            var loc = LOCALES[country] || LOCALES.US;
+            var rate = (rates && rates[loc.c]) || FALLBACK[loc.c] || 1;
+            document.querySelectorAll('[data-usd]').forEach(function(el){
+                var u = parseFloat(el.getAttribute('data-usd'));
+                if (!isNaN(u)) el.textContent = fmt(u, loc, rate);
+            });
+        }
+        render('US', FALLBACK);
+        var cached = sessionStorage.getItem('cu_country');
+        var cachedRates = sessionStorage.getItem('cu_rates');
+        if (cached && cachedRates) {
+            try { render(cached, JSON.parse(cachedRates)); } catch(e){}
+        }
+        Promise.all([
+            fetch('https://ipapi.co/json/', { cache:'no-store' }).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+            fetch('https://open.er-api.com/v6/latest/USD', { cache:'no-store' }).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })
+        ]).then(function(res){
+            var country = (res[0] && res[0].country_code ? res[0].country_code : 'US').toUpperCase();
+            var rates = (res[1] && res[1].rates) ? res[1].rates : FALLBACK;
+            try {
+                sessionStorage.setItem('cu_country', country);
+                sessionStorage.setItem('cu_rates', JSON.stringify(rates));
+            } catch(e){}
+            render(country, rates);
+        });
+    })();
+
+})();
+</script>
+
+</body>
+</html>
