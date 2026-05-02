@@ -1,5 +1,5 @@
 /* ============================================
-   LuuvTune Clone — Premium Dark Theme
+   Lyralo — Premium Dark Theme
    ============================================ */
 
 /* === RESET & VARIABLES === */
@@ -1686,7 +1686,7 @@ input, select, textarea { font-family: inherit; font-size: 1rem; }
    Overrides the generic dark styles above so that the inner
    quiz cards (genre rows, mood pills, packages, second-song
    block, inspiration, info cards, testimonial) use a light
-   surface with dark text, matching the luuvtune reference.
+   surface with dark text, matching the Lyralo reference.
    Occasion buttons, voice buttons and the top summary card
    stay dark on purpose.
    ============================================================ */
